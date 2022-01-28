@@ -1,0 +1,23 @@
+--- AMB1-plugins-0.3.0/source/Makefile.orig	2020-03-25 13:59:15.000000000 +0100
++++ AMB1-plugins-0.3.0/source/Makefile	2022-01-28 18:05:55.027271874 +0100
+@@ -1,16 +1,17 @@
+ CPPFLAGS += -I. 
+-CXXFLAGS += -fPIC -D_REENTRANT -Wall -O2
++CXXFLAGS += -fPIC -D_REENTRANT -Wall
++LADSPA_LIB_DIR = /usr/lib/ladspa
+ 
+ 
+ OBJS = amb1tools.o dominance1.o sn3dpan1.o zrotator1.o
+ 
+ 
+ hoa1tools.so:	$(OBJS)
+-	$(CXX) -shared -o $@ $(OBJS)
++	$(CXX) $(LDFLAGS) -shared -o $@ $(OBJS)
+ 
+ 
+ install:	hoa1tools.so
+-	/usr/bin/install -m 755 *.so /usr/lib/ladspa
++	/usr/bin/install -m 755 *.so $(DESTDIR)$(LADSPA_LIB_DIR)
+ 
+ 
+ clean:
